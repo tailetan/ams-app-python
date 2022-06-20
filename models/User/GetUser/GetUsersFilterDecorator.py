@@ -6,6 +6,7 @@ class GetUserFilterDecorator:
         result = self.attributes['object_factory'].create_filter_object(
             'FilterLocationRequest',
             object_factory=self.attributes['object_factory'],
+            model=self.attributes['model'],
             query=query,
             location_params=self.attributes['location_params']).filter_location_request()
         return result
@@ -14,6 +15,7 @@ class GetUserFilterDecorator:
         result = self.attributes['object_factory'].create_filter_object(
             'FilterRoleRequest',
             object_factory=self.attributes['object_factory'],
+            model=self.attributes['model'],
             query=query,
             role_params=self.attributes['role_params']).filter_role_request()
         return result

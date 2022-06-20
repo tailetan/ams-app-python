@@ -6,7 +6,7 @@ class GetUserByLocationFilter():
         obj = self.attributes['object_factory'].create_filter_object(
             'FilterLocationRequest',
             object_factory=self.attributes['object_factory'],
-            model=self.attributes['user_model'],
+            model=self.attributes['model'],
             query=self.attributes['query'],
             location_params=self.attributes['location_params']
         )

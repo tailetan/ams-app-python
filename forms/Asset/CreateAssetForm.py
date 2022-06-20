@@ -1,13 +1,13 @@
 import sys
 
-from lib.wtforms import validators
-from lib.wtforms.fields.core import StringField
-from lib.wtforms.form import Form
+from wtforms import validators
+from wtforms.fields.core import StringField
+from wtforms.form import Form
 
 reload(sys)
 sys.setdefaultencoding('utf8')
-from lib.wtforms import *
-import datetime
+# from lib.wtforms import *
+# import datetime
 
 
 class CreateAssetForm(Form):

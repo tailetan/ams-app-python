@@ -27,11 +27,11 @@ class Category(BaseModel):
             category_prefix=self.category_prefix
         )
         obj.create_user(Category(), form)
-    def serializable(self):
-        return {
-            "time_created": self.time_created,
-            "time_last_modified": self.time_last_modified,
-            "category_name": self.category_name,
-
-        }
+    # def serializable(self):
+    #     return {
+    #         "time_created": self.time_created,
+    #         "time_last_modified": self.time_last_modified,
+    #         "category_name": self.category_name,
+    #
+    #     }
 

@@ -1,3 +1,4 @@
+import uuid
 from time import mktime
 import datetime
 import json
@@ -9,13 +10,16 @@ import json
 # if 'google' in sys.modules:
 #     del sys.modules['google']
 
-from lib.google.appengine.ext import ndb
+from google.appengine.ext import ndb
 
 # from google.appengine.ext import db
+from lib.peewee import UUIDField
+
 
 class BaseModel(ndb.Model):
 
     # id = uuid.uuid4().hex(primary_key=True)
+    id = UUIDField(primary_key=True)
     time_created = ndb.DateTimeProperty(auto_now_add=True)
     time_last_modified = ndb.DateTimeProperty(auto_now=True)
 
@@ -52,8 +56,8 @@ class BaseModel(ndb.Model):
     #         result.append(dict([(p, unicode(getattr(entry, p))) for p in entry._properties()]))
     #     return result
 
-    def json_parser_get_list(self, query_obj):
-        return json.dumps({
-            # 'next_page_url': next_page_url,
-            'data': [a.to_dict() for a in query_obj]},
-            indent=4, sort_keys=True, default=str)
+    # def json_parser_get_list(self, query_obj):
+    #     return json.dumps({
+    #         # 'next_page_url': next_page_url,
+    #         'data': [a.to_dict() for a in query_obj]},
+    #         indent=4, sort_keys=True, default=str)

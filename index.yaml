@@ -10,12 +10,8 @@ indexes:
 - kind: "User"
   properties:
   - name: "location"
-  - name: "staff_code"
-    direction: desc
-- kind: "User"
-  properties:
   - name: "role"
-  - name: "staff_code"
+  - name: "full_name"
     direction: desc
 - kind: "User"
   properties:
@@ -23,6 +19,35 @@ indexes:
   - name: "role"
   - name: "staff_code"
     direction: desc
+- kind: "User"
+  properties:
+  - name: "role"
+  - name: "staff_code"
+    direction: desc
+- kind: "User"
+  properties:
+  - name: "role"
+  - name: "full_name"
+    direction: desc
+- kind: "User"
+  properties:
+  - name: "location"
+  - name: "full_name"
+    direction: desc
+- kind: "User"
+  properties:
+  - name: "location"
+  - name: "staff_code"
+    direction: desc
+- kind: "User"
+  properties:
+  - name: "location"
+  - name: "full_name"
+- kind: "User"
+  properties:
+  - name: "location"
+  - name: "role"
+  - name: "full_name"
 - kind: "Greeting"
   ancestor: yes
   properties:

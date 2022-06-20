@@ -7,7 +7,7 @@ class CrudUserCommand(CRUDCommand):
 
     def get_list(self):
         self._attributes['user'].get_list_model(
-            cursor=self._attributes['cursor'],
+            # cursor=self._attributes['cursor'],
             location_params=self._attributes['location_params'],
             invoker=self._attributes['invoker'],
             role_params=self._attributes['role_params'],

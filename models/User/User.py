@@ -1,4 +1,5 @@
-import hashlib, uuid
+import hashlib
+import uuid
 import sys
 
 # from lib.wtforms.ext.appengine import ndb
@@ -13,6 +14,7 @@ from models.User.Create.CreateStaffCode import CreateStaffCode as ctc
 
 from models.BaseModel import BaseModel as bm
 import datetime
+
 
 class User(BaseModel):
     first_name = ndb.StringProperty()
@@ -37,7 +39,6 @@ class User(BaseModel):
             'GetUser',
             user_model=User,
             invoker=kwargs['invoker'],
-            cursor=kwargs['cursor'],
             object_factory=ObjectFactory,
             location_params=kwargs['location_params'],
             role_params=kwargs['role_params'],
@@ -50,7 +51,7 @@ class User(BaseModel):
 
     def create_model(self, form):
         from factories.ObjectFactory import ObjectFactory
-        object = ObjectFactory.create_user_object(
+        obj = ObjectFactory.create_user_object(
             'CreateUser',
             staff_code=self.staff_code,
             first_name=self.first_name,
@@ -61,14 +62,21 @@ class User(BaseModel):
             role=self.role,
             count_user=self.count_user()
         )
-        object.create_user(User(), form)
+        obj.create_user(User(), form)
 
     def serializable(self):
         return {
-            # "id": self.id,
-            "time_created": self.time_created,
-            "time_last_modified": self.time_last_modified,
+            "id": self.id.__str__(),
+            "time_created": self.time_created.strftime("%Y-%m-%d %H:%M:%S"),
+            "time_last_modified": self.time_last_modified.strftime("%Y-%m-%d %H:%M:%S"),
             "first_name": self.first_name,
             "last_name": self.last_name,
+            "full_name": self.full_name,
+            "username": self.username,
+            "joined_date": self.joined_date,
+            "password": self.password,
+            "staff_code": self.gender,
+            "location": self.gender,
+
             "date_of_birth": self.date_of_birth
         }

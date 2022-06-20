@@ -1,18 +1,16 @@
-# import json
 import json
+import datetime
 
 import webapp2
-import traceback
-# import sys
+import sys
 
-# from Models.BaseModel import *
-# from Models.User import User
-# sys.path.insert(1, '/Users/tantaile/Desktop/Python/ams-app/google-cloud-sdk/platform/google_appengine')
-# sys.path.insert(1,
-#                 '/Users/tantaile/Desktop/Python/ams-app/google-cloud-sdk/platform/google_appengine/lib/yaml-3.10/yaml')
-# if 'google' in sys.modules:
-#     del sys.modules['google']
-# from util.Errors import *
+sys.path.insert(1, '/Users/tantaile/Desktop/Python/ams-app/google-cloud-sdk/platform/google_appengine')
+sys.path.insert(1,
+                '/Users/tantaile/Desktop/Python/ams-app/google-cloud-sdk/platform/google_appengine/lib/yaml-3.10/yaml')
+if 'google' in sys.modules:
+    del sys.modules['google']
+
+
 from google.appengine.ext import db
 # from webapp2_extras import json
 from util.Errors import BadRequestException
@@ -21,7 +19,6 @@ from util.Errors import BadRequestException
 class BaseHandler(webapp2.RequestHandler):
     def guestbook_key(self, guestbook_name=None):
         """Constructs a datastore key for a Guestbook entity with guestbook_name."""
-        # return db.Key.from_path('Guestbook', guestbook_name or 'default_guestbook')
 
     def get_params(self):
         try:
@@ -138,3 +135,27 @@ class BaseHandler(webapp2.RequestHandler):
                     req_dic[l[0]] = value
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(req_dic))
+
+    def update_time_last_modified(self):
+        if hasattr(self, "time_last_modified"):
+            setattr(self, "time_last_modified", datetime.datetime.now())
+
+    def set_values(self, values, variables):
+
+        for var in variables:
+            if var in values:
+                if hasattr(self, var) and var != "password_hash":
+                    if var == "id" or var == "time_created":
+                        continue
+
+                    if getattr(self, var) != values[var]:
+                        setattr(self, var, values[var])
+                        self.update_time_last_modified()
+
+                elif var == "password":
+                    # self.set_password(values[var])
+                    self.update_time_last_modified()
+
+                else:
+                    e = BadRequestException()
+                    e.message = "'%s' is not an acceptable value" % (var)

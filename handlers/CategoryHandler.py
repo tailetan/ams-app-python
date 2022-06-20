@@ -31,4 +31,23 @@ class CategoryHandler(BaseHandler):
             self.invoker.execute('create')
         self.return_json(self.request.POST.items())
 
+    def get(self, user_id=None):
+
+        # users = User.all()
+        if self.request.GET.get('user_id'):
+            q = ndb.GqlQuery("SELECT * From User WHERE id = :1", user_id)
+            json_query_data = self.gql_json_parser(q)
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.out.write(json.dumps(json_query_data))
+        else:
+
+            command_get_list_object = ObjectFactory.create_command_object(
+                'CrudCategoryCommand',
+                user=self.category_object,
+                invoker=self.invoker,
+                response_out_write=self.response.out.write
+
+            )
+            self.invoker.register('get_list', command_get_list_object)
+            self.invoker.execute('get_list')
 

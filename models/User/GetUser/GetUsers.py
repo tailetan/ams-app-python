@@ -6,43 +6,40 @@ class GetUser(BaseModel):
     def __init__(self, **kwargs):
         self.attributes = kwargs
 
-    def get_all_user(self, object_factory):
-        object = object_factory(
-            'GetAllUser',
-            user_model=self.attributes['user_model']
-        )
-        return object.get_all_user()
+    def get_all_user(self):
+        query = self.attributes['user_model'].all()
+        return query
 
     def get_user_location_role_filter_list(self, query):
-        object = self.attributes['object_factory'].create_user_object(
+        obj = self.attributes['object_factory'].create_user_object(
             'GetUserFilterDecorator',
             object_factory=self.attributes['object_factory'],
             query=query,
-            user_model=self.attributes['user_model'],
+            model=self.attributes['user_model'],
             location_params=self.attributes['location_params'],
             role_params=self.attributes['role_params']
         )
-        return object.get_user_location_role_filter_list()
+        return obj.get_user_location_role_filter_list()
 
     def get_user_location_filter_list(self, query):
-        object = self.attributes['object_factory'].create_user_object(
+        obj = self.attributes['object_factory'].create_user_object(
             'GetUserByLocationFilter',
             object_factory=self.attributes['object_factory'],
-            user_model=self.attributes['user_model'],
+            model=self.attributes['user_model'],
             query=query,
             location_params=self.attributes['location_params']
         )
-        return object.get_user_by_location_filter()
+        return obj.get_user_by_location_filter()
 
     def get_user_role_filter_list(self, query):
-        object = self.attributes['object_factory'].create_user_object(
+        obj = self.attributes['object_factory'].create_user_object(
             'GetUserByRoleFilter',
             object_factory=self.attributes['object_factory'],
-            user_model=self.attributes['user_model'],
+            model=self.attributes['user_model'],
             query=query,
             role_params=self.attributes['role_params']
         )
-        return object.get_user_by_role_filter()
+        return obj.get_user_by_role_filter()
 
     def get_users(self):
         query = self.attributes['user_model'].query()
@@ -65,8 +62,13 @@ class GetUser(BaseModel):
             'SortedList'
         ).sort_request(sort_object)
 
-        # return json.dumps(self.gql_json_parser(result))
+        #
+        # return result
+        # return json.dumps(a for a in result)
+        def set_default(obj):
+            if isinstance(obj, set):
+                return list(obj)
+            raise TypeError
 
-        return self.json_parser_get_list(result)
-
-
+        return json.dumps([a.to_dict() for a in result], indent=4, sort_keys=True, default=str)
+        # return json.dumps('data': [a.to_dict() for a in result])
