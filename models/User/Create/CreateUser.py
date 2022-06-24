@@ -1,7 +1,7 @@
 from models.BaseModel import *
 
 
-class CreateUser():
+class CreateUser:
     def __init__(self, **kwargs):
         self.attributes = kwargs
 

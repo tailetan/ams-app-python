@@ -4,6 +4,7 @@ from factories.ObjectFactory import ObjectFactory
 from google.appengine.api.search import search
 from models.User.User import *
 from forms.User.CreateUserForm import *
+from google.appengine.datastore.datastore_query import Cursor
 
 # from google.appengine.api import user
 sys.path.insert(1, '/Users/tantaile/Desktop/Python/ams-app/google-cloud-sdk/platform/google_appengine')
@@ -52,7 +53,6 @@ class UserHandler(BaseHandler):
         if user_id:
             u = User.get_by_id(int(user_id))
             self.respond(u.serializable() if u is not None else "User not found")
-            # self.response.out.write(u if u is not None else "No user was found")
         else:
 
             command_get_list_object = ObjectFactory.create_command_object(
@@ -63,15 +63,39 @@ class UserHandler(BaseHandler):
                     self.request.GET.get('location')).split(','),
                 role_params=str(
                     self.request.GET.get('role')).split(','),
+                page=self.request.get(
+                    'page', default_value=int(1)),
                 sort_params=self.request.GET.get('sort_params'),
                 sort_direction=self.request.GET.get('sort_direction'),
-                cursor=ndb.Cursor(urlsafe=self.request.get('cursor', default_value=None)),
+                cursor=Cursor(urlsafe=self.request.get(
+                    'cursor', default_value=None)),
+                search_key=str(self.request.get(
+                    'search_key', default_value=None)).split(','),
+                search_value=self.request.get(
+                    'search_value', default_value=None),
                 response_out_write=self.response.out.write
 
             )
             self.invoker.register('get_list', command_get_list_object)
             self.invoker.execute('get_list')
 
+    def put(self, user_id):
+
+        form_object = ObjectFactory.create_form_object(
+            'UpdateUserForm',
+            self.request.PUT,
+            self.user_object
+        )
+        if self.request.PUT and form_object.validate():
+            form_object.populate_obj(self.user_object)
+            command_create_object = ObjectFactory.create_command_object(
+                'CrudUserCommand',
+                user=self.user_object,
+                form=form_object
+            )
+            self.invoker.register('create', command_create_object)
+            self.invoker.execute('create')
+        self.return_json(self.request.PUT.items())
 
     # def put(self):
     #
@@ -90,4 +114,3 @@ class UserHandler(BaseHandler):
     #
     #         self.error(e)
     #         return
-    #

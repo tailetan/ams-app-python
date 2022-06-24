@@ -17,8 +17,10 @@ from util.Errors import BadRequestException
 
 
 class BaseHandler(webapp2.RequestHandler):
-    def guestbook_key(self, guestbook_name=None):
-        """Constructs a datastore key for a Guestbook entity with guestbook_name."""
+    def dispatch(self):
+        self.response.headers.add_header('Access-Control-Allow-Origin', 'http://localhost:3000')
+        self.response.headers['Content-Type'] = 'application/json'
+        webapp2.RequestHandler.dispatch(self)
 
     def get_params(self):
         try:
@@ -97,16 +99,16 @@ class BaseHandler(webapp2.RequestHandler):
             filters.append([str(i) for i in filter_])
         return filters
 
-    def return_users(self, filter_name, li_u_removed):
-        list_filter = []
-        for i in li_u_removed:
-            sql = "SELECT * From User WHERE " + filter_name + " = :1"
-            q = db.GqlQuery(sql, i)
-            list_filter += q
-
-        json_query_data = self.gql_json_parser(list_filter)
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(json.dumps(json_query_data))
+    # def return_users(self, filter_name, li_u_removed):
+    #     list_filter = []
+    #     for i in li_u_removed:
+    #         sql = "SELECT * From User WHERE " + filter_name + " = :1"
+    #         q = db.GqlQuery(sql, i)
+    #         list_filter += q
+    #
+    #     json_query_data = self.gql_json_parser(list_filter)
+    #     self.response.headers['Content-Type'] = 'application/json'
+    #     self.response.out.write(json.dumps(json_query_data))
 
     def return_json(self, arg):
         req_dic = {}

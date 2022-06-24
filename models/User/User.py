@@ -5,6 +5,8 @@ import sys
 # from lib.wtforms.ext.appengine import ndb
 # from models.User.Create.CreateUsername import CreateUsername
 # from wtforms.ext.appengine import db
+from google.appengine.ext import ndb
+
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -36,18 +38,23 @@ class User(BaseModel):
     def get_list_model(self, **kwargs):
         from factories.ObjectFactory import ObjectFactory
         object = ObjectFactory.create_user_object(
-            'GetUser',
+            'GetUsers',
             user_model=User,
+            model_name_url='user',
             invoker=kwargs['invoker'],
+            page=kwargs['page'],
+            cursor=kwargs['cursor'],
             object_factory=ObjectFactory,
             location_params=kwargs['location_params'],
             role_params=kwargs['role_params'],
             sort_params=kwargs['sort_params'],
             sort_direction=kwargs['sort_direction'],
+            search_key=kwargs['search_key'],
+            search_value=kwargs['search_value'],
             response_out_write=kwargs['response_out_write']
         )
-        result = object.get_users()
-        kwargs['response_out_write'](result)
+        # result = object.get_users()
+        kwargs['response_out_write'](object.get_users())
 
     def create_model(self, form):
         from factories.ObjectFactory import ObjectFactory
@@ -75,8 +82,8 @@ class User(BaseModel):
             "username": self.username,
             "joined_date": self.joined_date,
             "password": self.password,
-            "staff_code": self.gender,
-            "location": self.gender,
+            "staff_code": self.staff_code,
+            "location": self.location,
 
             "date_of_birth": self.date_of_birth
         }

@@ -11,5 +11,11 @@ class UserInvoker:
                 self._commands[command_name].get_list()
             if command_name == 'create':
                 self._commands[command_name].create()
+            if command_name == 'create':
+                self._commands[command_name].create()
+            if command_name == 'create_next_page_url':
+                return self._commands[command_name].create_next_page_url()
+            if command_name == 'create_prev_page_url':
+                return self._commands[command_name].create_prev_page_url()
         else:
             print('Command [{command_name}] not recognised')

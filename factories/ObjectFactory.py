@@ -4,7 +4,8 @@ from ClassList.CategoryClassList import CATEGORY_CLASS_LIST
 from factories.ClassList.CommandClassList import COMMAND_CLASS_LIST
 from factories.ClassList.FilterClassList import FILTER_CLASS_LIST
 from factories.ClassList.FormClassList import FORM_CLASS_LIST
-# from factories.ClassList.PaginationClassList import PAGINATION_CLASS_LIST
+from factories.ClassList.PaginationClassList import PAGINATION_CLASS_LIST
+from factories.ClassList.SearchClassList import SEARCH_CLASS_LIST
 from factories.ClassList.SortClassList import SORT_CLASS_LIST
 
 
@@ -37,7 +38,13 @@ class ObjectFactory(object):
     def create_category_object(object_name, **kwargs):
         return CATEGORY_CLASS_LIST[object_name](**kwargs)
 
-    # @staticmethod
-    # def create_pagination_object(object_name):
-    #     return PAGINATION_CLASS_LIST[object_name]()
+
+
+    @staticmethod
+    def create_search_object(object_name, **kwargs):
+        return SEARCH_CLASS_LIST[object_name](**kwargs)
+
+    @staticmethod
+    def create_pagination_object(object_name, **kwargs):
+        return PAGINATION_CLASS_LIST[object_name](**kwargs)
 

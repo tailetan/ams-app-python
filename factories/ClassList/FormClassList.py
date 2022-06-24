@@ -4,6 +4,7 @@ from forms.User.CreateUserForm import CreateUserForm
 
 FORM_CLASS_LIST = {
     'CreateUserForm': CreateUserForm,
+    'UpdateUserForm': CreateUserForm,
     'CreateCategoryForm': CreateCategoryForm
 
 }

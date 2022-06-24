@@ -3,17 +3,17 @@ from models.User.Create.CreatePassword import CreatePassword
 from models.User.Create.CreateStaffCode import CreateStaffCode
 from models.User.Create.CreateUser import CreateUser
 from models.User.Create.CreateUsername import CreateUsername
-from models.User.GetUser.GetUsers import GetUser
 from models.User.GetUser.GetUsersByLocationFilter import GetUserByLocationFilter
 from models.User.GetUser.GetUsersByRoleFilter import GetUserByRoleFilter
 from models.User.User import User
-from models.User.GetUser.GetUsers import GetUser
+from models.User.GetUser.GetUsers import GetUsers
 from models.User.GetUser.GetUsersFilterDecorator import GetUserFilterDecorator
-
+from models.User.UserPagination.UserPagination import UserPagination
+from models.User.UserPagination.UserParamsUrl import UserParamsUrl
 
 USER_CLASS_LIST = {
     'User': User,
-    'GetUser': GetUser,
+    'GetUsers': GetUsers,
     # 'GetAllUser': GetAllUser,
     'GetUserByLocationFilter': GetUserByLocationFilter,
     'GetUserByRoleFilter': GetUserByRoleFilter,
@@ -22,5 +22,7 @@ USER_CLASS_LIST = {
     'CreateUsername': CreateUsername,
     'CreatePassword': CreatePassword,
     'CreateStaffCode': CreateStaffCode,
-    'CreateFullName': CreateFullName
+    'CreateFullName': CreateFullName,
+    'UserPagination': UserPagination,
+    'UserParamsUrl': UserParamsUrl
 }
